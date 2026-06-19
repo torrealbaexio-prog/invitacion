@@ -34,48 +34,55 @@ document.addEventListener("DOMContentLoaded", () => {
     const fechaBoda = new Date("Jan 8, 2027 19:00:00").getTime();
     const fechaLimite = new Date("Jul 20, 2026 23:59:00").getTime();
 
-    // Captura de Parámetros URL
+    // Capturar el nuevo parámetro de URL estético (?to=Nombre-Apellido)
     const urlParams = new URLSearchParams(window.location.search);
-    const idInvitadoUrl = urlParams.get('id');
-    const nombreInvitado = urlParams.get('invitado');
-    const pasesInvitado = urlParams.get('pases');
-    const tipoInvitado = urlParams.get('tipo'); 
+    const aliasInvitado = urlParams.get('to'); 
 
-    // Control Automático de Estado "Visto"
-    if (idInvitadoUrl) {
+    // Valores predeterminados por si acaso
+    let nombreInvitado = "Invitado Especial";
+    let pasesInvitado = "";
+    let tipoInvitado = "local";
+    let idInvitadoUrl = null;
+
+    // BUSCADOR EN LA BASE DE DATOS LOCAL
+    if (aliasInvitado) {
         try {
-            let dbInvitados = JSON.parse(localStorage.getItem('boda_invitados')) || [];
-            let existe = dbInvitados.some(inv => inv.id === idInvitadoUrl);
-            if (existe) {
-                dbInvitados = dbInvitados.map(inv => {
-                    if (inv.id === idInvitadoUrl && inv.estado === 'enviado') {
-                        inv.estado = 'visto';
-                    }
-                    return inv;
-                });
-                localStorage.setItem('boda_invitados', JSON.stringify(dbInvitados));
+            const dbInvitados = JSON.parse(localStorage.getItem('boda_invitados')) || [];
+            // Reconstruimos el formato original sustituyendo guiones por espacios
+            const nombreBuscado = aliasInvitado.replace(/-/g, ' ').toLowerCase().trim();
+
+            const invitadoEncontrado = dbInvitados.find(inv => inv.nombre.toLowerCase().trim() === nombreBuscado);
+
+            if (invitadoEncontrado) {
+                idInvitadoUrl = invitadoEncontrado.id;
+                nombreInvitado = invitadoEncontrado.nombre;
+                pasesInvitado = invitadoEncontrado.pases;
+                tipoInvitado = invitadoEncontrado.tipo || 'local';
+
+                // Cambiar estado a "visto" discretamente si estaba en "enviado"
+                if (invitadoEncontrado.estado === 'enviado') {
+                    invitadoEncontrado.estado = 'visto';
+                    localStorage.setItem('boda_invitados', JSON.stringify(dbInvitados));
+                }
+            } else {
+                // Si el link se abre en otro dispositivo sin BD, igual formatea el nombre para la visualización
+                nombreInvitado = aliasInvitado.replace(/-/g, ' ');
             }
         } catch (e) {
-            console.log("Aviso de almacenamiento local.");
+            console.log("Error de lectura en base de datos.");
+            nombreInvitado = aliasInvitado.replace(/-/g, ' ');
         }
     }
 
-    // Inyectar Nombre del Invitado
-    if (nombreInvitado) {
-        document.getElementById('nombre-invitado').innerText = decodeURIComponent(nombreInvitado);
-    } else {
-        document.getElementById('nombre-invitado').innerText = "Invitado Especial";
-    }
+    // Inyectar Nombre del Invitado en el HTML
+    document.getElementById('nombre-invitado').innerText = nombreInvitado;
     
-    // Procesar Lista de Pases en Filas Verticales
-    if (pasesInvitado) {
-        const textoPases = decodeURIComponent(pasesInvitado);
-        const contenedorLista = document.getElementById('detalle-pases');
-        
-        if (contenedorLista) {
-            contenedorLista.innerHTML = ""; 
-            const arrayNombres = textoPases.split(',');
-            
+    // Renderizar la lista de pases en filas limpias
+    const contenedorLista = document.getElementById('detalle-pases');
+    if (contenedorLista) {
+        contenedorLista.innerHTML = ""; 
+        if (pasesInvitado) {
+            const arrayNombres = pasesInvitado.split(',');
             arrayNombres.forEach(nombre => {
                 const nombreLimpio = nombre.trim();
                 if(nombreLimpio !== "") {
@@ -84,10 +91,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     contenedorLista.appendChild(elementoFila);
                 }
             });
+        } else {
+            const elementoFila = document.createElement('li');
+            elementoFila.innerText = "Pase Personal Familiar";
+            contenedorLista.appendChild(elementoFila);
         }
     }
 
-    // Segmentación por Ubicación (Local vs Afuera)
+    // Mostrar u ocultar módulos según si es invitado de "afuera" o "local"
     const divInternacionales = document.getElementById('seccion-internacionales');
     const divRegalos = document.getElementById('seccion-regalos');
 
@@ -99,20 +110,20 @@ document.addEventListener("DOMContentLoaded", () => {
         if (divRegalos) divRegalos.style.display = 'none';
     }
 
-    // Mecanismo de Apertura del Sobre
+    // Mecanismo de Apertura del Sobre de Canva
     if (sobreClic) {
         sobreClic.onclick = function() {
             if (pantallaSobre) pantallaSobre.classList.add("sobre-desvanecido");
             if (contenidoInvitacion) contenidoInvitacion.classList.add("mostrar-contenido");
 
             if (musica) {
-                musica.play().catch(() => console.log("Audio esperando interacción activa."));
+                musica.play().catch(() => console.log("Permisos de reproducción pendientes."));
             }
             lanzarLluviaPetalos();
         };
     }
 
-    // Generador de Efecto Visual (Pétalos)
+    // Efecto visual de los Pétalos
     function lanzarLluviaPetalos() {
         const contenedor = document.getElementById("contenedor-petalos");
         if (!contenedor) return;
@@ -130,11 +141,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Gestión Dinámica de los Relojes
+    // Manejo de Relojes
     function actualizarContadores() {
         const ahora = new Date().getTime();
 
-        // 1. Reloj de la Boda
+        // Reloj Boda
         const contBoda = document.getElementById("contador-boda");
         if (contBoda) {
             const difBoda = fechaBoda - ahora;
@@ -156,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
-        // 2. Reloj Límite de Confirmación
+        // Reloj Límite Confirmación
         const contConfirmar = document.getElementById("contador-confirmacion");
         const btnPresencial = document.getElementById("btn-presencial");
         if (contConfirmar) {
@@ -186,11 +197,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Inicialización y bucle de los relojes
     setInterval(actualizarContadores, 1000);
     actualizarContadores();
 
-    // Integración de Calendario Google
+    // Calendario de Google
     const btnCal = document.getElementById("btn-calendario");
     if (btnCal) {
         btnCal.onclick = function() {

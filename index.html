@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invitación de Boda - Dayana & Exio</title>
-    <link rel="stylesheet" href="style.css?v=2.3">
+    <link rel="stylesheet" href="style.css?v=3.0">
 </head>
 <body>
 
@@ -13,19 +13,11 @@
         <source src="musica.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- PANTALLA 1: EL SOBRE INTERACTIVO -->
+    <!-- PANTALLA 1: EL SOBRE CON IMAGEN DE CANVA -->
     <div id="pantalla-sobre" class="pantalla-sobre">
-        <div class="sobre-wrapper" id="sobre-clic">
-            <div class="sobre-cuerpo">
-                <div class="solapa-izq"></div>
-                <div class="solapa-der"></div>
-                <div class="solapa-inf"></div>
-                <div class="solapa-sup"></div>
-                <div class="sello-cera">
-                    <div class="iniciales-sello">ED</div>
-                </div>
-            </div>
-            <p class="instruccion">Toca el sobre para ver tu invitación</p>
+        <div class="sobre-wrapper-imagen" id="sobre-clic">
+            <img src="sobre.jpeg" alt="Sobre de Invitación" class="imagen-sobre-canva">
+            <p class="instruccion">Toca el sobre para abrir tu invitación</p>
         </div>
     </div>
 
@@ -47,7 +39,6 @@
                 <p>Hemos decidido unir nuestras vidas en matrimonio y nos llenaría de alegría contar con su compañía en este día tan especial.</p>
                 <p class="firma">Con mucho cariño, queremos invitar a las siguientes personas de su familia:</p>
                 
-                <!-- Lista en filas verticales con viñetas -->
                 <div class="lista-pases-contenedor">
                     <ul id="detalle-pases">
                         <!-- Se inyecta dinámicamente con JavaScript -->
@@ -112,7 +103,7 @@
 
             <hr>
 
-            <!-- SECCIÓN: CONFIRMACIÓN DE ASISTENCIA PRESENCIAL -->
+            <!-- SECCIÓN: CONFIRMACIÓN DE ASISTENCIA -->
             <section class="seccion confirmacion-seccion">
                 <h3>Confirmación de Asistencia</h3>
                 <p class="fecha-limite-texto">Fecha límite: 20 de julio de 2026 a las 11:59 PM</p>
@@ -124,7 +115,7 @@
                 <button id="btn-calendario" class="btn btn-calendario">Agregar a mi calendario</button>
             </section>
 
-            <!-- SECCIÓN: ASISTENCIA VIRTUAL (Solo Internacionales) -->
+            <!-- SECCIÓN: ASISTENCIA VIRTUAL -->
             <div id="seccion-internacionales" style="display: none;">
                 <hr>
                 <section class="seccion internacionales">
@@ -134,26 +125,24 @@
                 </section>
             </div>
 
-            <!-- SECCIÓN: REGALOS Y DATOS BANCARIOS (Solo Internacionales) -->
+            <!-- SECCIÓN: REGALOS Y DATOS BANCARIOS -->
             <div id="seccion-regalos" style="display: none;">
                 <hr>
                 <section class="seccion regalos">
                     <h3>"Tu regalo, nuestro inicio"</h3>
                     <p>El mayor regalo para nosotros será contar con tu presencia en este día tan especial.</p>
-                    <p>Sin embargo, si deseas tener un detalle con nuestra nueva familia, hemos elegido la tradicional lluvia de sobres como una forma sencilla y significativa de apoyarnos en el comienzo de esta nueva etapa de nuestras vidas.</p>
+                    <p>Sin embargo, si deseas tener un detalle con nuestra nueva familia, hemos elegido la tradicional lluvia de sobres como una forma sencilla y significativa de apoyarnos.</p>
                     
                     <div class="datos-bancarios">
                         <h4>Datos Bancarios</h4>
                         <p><strong>Banco:</strong> Falabella</p>
                         <p><strong>Tipo de cuenta:</strong> Ahorros</p>
                         
-                        <!-- Tarjeta interactiva: Número de Cuenta -->
                         <div class="campo-copia">
                             <p><strong>Número de cuenta:</strong> <span id="num-cuenta">5143329248913659</span></p>
                             <button class="btn-copiar-dato" onclick="window.copiarDatoBancario('num-cuenta', this)">Copiar Cuenta</button>
                         </div>
                         
-                        <!-- Tarjeta interactiva: Llave de banco -->
                         <div class="campo-copia">
                             <p><strong>Llave:</strong> <span id="llave-banco">@BFDG004969</span></p>
                             <button class="btn-copiar-dato" onclick="window.copiarDatoBancario('llave-banco', this)">Copiar Llave</button>
@@ -165,7 +154,6 @@
         </div>
     </div>
 
-    <!-- ENLACE AL SCRIPT DE LÓGICA -->
-    <script src="script.js?v=2.3"></script>
+    <script src="script.js?v=3.0"></script>
 </body>
 </html>
