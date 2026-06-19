@@ -1,0 +1,330 @@
+/* CONFIGURACIONES GENERALES */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Georgia', serif;
+    background-color: #f4efe9;
+    color: #3a3a3a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ========================================== */
+/* DISEÑO DEL SOBRE REALISTA (ESTILO EJEMPLO) */
+/* ========================================== */
+.pantalla-sobre {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #f4efe9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.sobre-wrapper {
+    width: 90%;
+    max-width: 420px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.sobre-cuerpo {
+    width: 100%;
+    height: 280px;
+    background-color: #556b2f; /* Verde oliva base real */
+    border-radius: 4px;
+    position: relative;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+    overflow: hidden;
+    border: 1px solid #425424;
+}
+
+/* Solapas usando bordes geométricos tridimensionales */
+.solapa-izq {
+    position: absolute;
+    top: 0; left: 0; width: 0; height: 0;
+    border-top: 140px solid transparent;
+    border-bottom: 140px solid transparent;
+    border-left: 210px solid #4c602a; /* Sombra izquierda */
+    z-index: 1;
+}
+
+.solapa-der {
+    position: absolute;
+    top: 0; right: 0; width: 0; height: 0;
+    border-top: 140px solid transparent;
+    border-bottom: 140px solid transparent;
+    border-right: 210px solid #4c602a; /* Sombra derecha */
+    z-index: 1;
+}
+
+.solapa-inf {
+    position: absolute;
+    bottom: 0; left: 0; width: 0; height: 0;
+    border-left: 210px solid transparent;
+    border-right: 210px solid transparent;
+    border-bottom: 150px solid #425424; /* Base inferior más oscura */
+    z-index: 2;
+}
+
+.solapa-sup {
+    position: absolute;
+    top: 0; left: 0; width: 0; height: 0;
+    border-left: 210px solid transparent;
+    border-right: 210px solid transparent;
+    border-top: 155px solid #5d7534; /* Solapa de cierre superior */
+    z-index: 3;
+    transform-origin: top;
+    transition: transform 0.4s ease;
+}
+
+/* Sello de cera redondo */
+.sello-cera {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #c2b296; /* Tono beige/arena premium del sello */
+    border-radius: 50%;
+    z-index: 4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3), inset 0 0 8px rgba(0,0,0,0.15);
+    border: 3px solid #bdae91;
+}
+
+.iniciales-sello {
+    font-family: 'Georgia', serif;
+    font-size: 1.6rem;
+    font-style: italic;
+    color: #556b2f;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px rgba(255,255,255,0.4);
+}
+
+.instruccion {
+    margin-top: 25px;
+    color: #556b2f;
+    font-size: 1rem;
+    font-style: italic;
+    animation: palpitar 2s infinite ease-in-out;
+}
+
+@keyframes palpitar {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+/* Responsive para pantallas muy pequeñas */
+@media (max-width: 430px) {
+    .sobre-cuerpo { height: 240px; }
+    .solapa-izq, .solapa-der { border-top-width: 120px; border-bottom-width: 120px; border-left-width: 190px; border-right-width: 190px; }
+    .solapa-inf { border-left-width: 190px; border-right-width: 190px; border-bottom-width: 130px; }
+    .solapa-sup { border-left-width: 190px; border-right-width: 190px; border-top-width: 135px; }
+}
+
+/* ========================================== */
+/* INTERIOR DE LA INVITACIÓN Abierta          */
+/* ========================================== */
+.contenido-oculto {
+    display: none;
+    width: 100%;
+    max-width: 460px;
+    padding: 25px 15px;
+    animation: aparicionSuave 1s ease forwards;
+}
+
+.mostrar-contenido {
+    display: block !important;
+}
+
+/* El Marco Verde Oliva Oscuro Premium */
+.marco-invitacion {
+    border: 4px double #3d4e1e; 
+    outline: 12px solid transparent;
+    padding: 35px 22px;
+    background-color: #f4efe9;
+    border-radius: 4px;
+    box-shadow: inset 0 0 25px rgba(74, 93, 36, 0.06);
+    text-align: center;
+}
+
+@keyframes aparicionSuave {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* CONTENEDORES DE FOTOS RECIENTES (.jpeg) */
+.contenedor-foto {
+    width: 100%;
+    margin: 25px 0;
+    padding: 6px;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-radius: 4px;
+}
+
+.foto-boda {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 2px;
+}
+
+/* TEXTOS INTERNOS */
+.seccion { margin-bottom: 35px; }
+h1.titulo-novios { color: #4a5d24; font-size: 2.5rem; font-weight: normal; margin-bottom: 10px; }
+h2 { color: #4a5d24; font-size: 1.6rem; margin-bottom: 15px; font-weight: normal; }
+h3 { color: #4a5d24; font-size: 1.15rem; margin-bottom: 12px; font-weight: normal; text-transform: uppercase; letter-spacing: 1px; }
+p { font-size: 1rem; line-height: 1.6; color: #4a4a4a; }
+hr { border: 0; height: 1px; background: linear-gradient(to right, transparent, #4a5d24, transparent); margin: 30px 0; }
+
+/* CONFIGURACIÓN COMPARTIDA DE RELOJES (BODA Y ASISTENCIA) */
+.contador-display {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 15px auto;
+    padding: 10px;
+    border-radius: 8px;
+    max-width: 310px;
+}
+.unidad-tiempo {
+    background-color: #fff;
+    padding: 8px;
+    border-radius: 6px;
+    min-width: 58px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+    border: 1px solid rgba(74, 93, 36, 0.15);
+}
+.numero { font-size: 1.25rem; font-weight: bold; color: #3d4e1e; display: block; }
+.etiqueta { font-size: 0.65rem; text-transform: uppercase; color: #666; }
+
+/* COLORES SEMÁFORO DEL NUEVO RELOJ */
+.semaforo-verde { background-color: #e8f5e9; border: 1px solid #c8e6c9; }
+.semaforo-amarillo { background-color: #fffde7; border: 1px solid #fff9c4; }
+.semaforo-rojo { background-color: #ffebee; border: 1px solid #ffcdd2; }
+
+.titulo-conteo-limite { font-size: 0.95rem; font-style: italic; color: #555; margin-top: 15px; margin-bottom: 5px; }
+.fecha-limite-texto { font-size: 1rem; color: #3d4e1e; font-weight: bold; }
+
+/* VESTIMENTA */
+.colores-prohibidos { display: flex; justify-content: center; gap: 20px; margin-top: 15px; }
+.item-color { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+.circulo-color { width: 22px; height: 22px; border-radius: 50%; border: 1px solid #d3d3d3; }
+.blanco { background-color: #ffffff; }
+.verde { background-color: #4a5d24; }
+.gris { background-color: #808080; }
+
+/* BOTONES */
+.btn {
+    display: inline-block;
+    width: 85%;
+    max-width: 280px;
+    padding: 13px;
+    margin: 8px 0;
+    background-color: #4a5d24;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 25px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(74, 93, 36, 0.2);
+}
+.btn-maps, .btn-waze { background-color: #647a3e; width: 45%; margin: 5px; font-size: 0.85rem; }
+.btn-calendario { background-color: #fff; color: #4a5d24; border: 1px solid #4a5d24; box-shadow: none; }
+
+.datos-bancarios {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 15px;
+    text-align: left;
+    border: 1px solid rgba(74, 93, 36, 0.15);
+}
+.datos-bancarios h4 { color: #4a5d24; margin-bottom: 10px; text-align: center; }
+
+/* LLUVIA DE PÉTALOS */
+#contenedor-petalos { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; pointer-events: none; z-index: 998; overflow: hidden; }
+.petalo { position: absolute; background-color: #647a3e; border-radius: 0 70% 0 70%; opacity: 0.8; animation: caer linear forwards; }
+@keyframes caer {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 0.8; }
+    100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
+}
+.sobre-desvanecido { opacity: 0; visibility: hidden; pointer-events: none; }
+/* ESTILOS NUEVOS PARA LA LISTA DE PASES EN FILA */
+.lista-pases-contenedor {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+    text-align: left;
+}
+
+.lista-pases-contenedor ul {
+    list-style-type: disc; /* El puntico de la viñeta */
+    padding-left: 20px;
+    margin: 0;
+}
+
+.lista-pases-contenedor li {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #4a5d24;
+    margin-bottom: 6px; /* Separación entre filas */
+    line-height: 1.4;
+}/* ESTILOS PARA LOS BOTONES DE COPIADO BANCARIO */
+.campo-copia {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fdfbf7;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-top: 10px;
+    border: 1px dashed rgba(74, 93, 36, 0.2);
+    gap: 10px;
+}
+
+.campo-copia p {
+    margin: 0;
+    font-size: 0.9rem;
+    word-break: break-all; /* Evita que el número largo se salga en pantallas pequeñas */
+}
+
+.btn-copiar-dato {
+    background-color: #4a5d24;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-copiar-dato:active {
+    transform: scale(0.95);
+}
+
+.btn-copiar-dato.copiado {
+    background-color: #2e7d32; /* Cambia a verde éxito al copiar */
+}
